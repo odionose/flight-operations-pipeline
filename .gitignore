@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+.python-version
+
+# Virtual environments
+venv/
+.env/
+.env
+.venv/
+
+# Airflow logs and PID files
+logs/
+tmp/
+*.pid
+
+# Docker
+docker-compose.override.yml
+*.log
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# macOS
+.DS_Store
+
+# Data directories (if you do not want them tracked)
+# Uncomment if data is generated and should not be committed
+# data/
