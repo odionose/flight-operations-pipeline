@@ -11,6 +11,7 @@ if AIRFLOW_HOME not in sys.path:
 
 from scripts.gamma_ingest import run_gamma_ingestion
 from scripts.beta_transform import run_beta_transform
+from scripts.alpha_aggregate import run_alpha_aggregate
 
 default_args = {
     'owner': 'airflow',
@@ -39,4 +40,10 @@ with DAG(
         provide_context=True,
     )
 
-    gamma_ingest_task >> beta_transform_task
+    alpha_aggregate_task = PythonOperator(
+        task_id='alpha_aggregate',
+        python_callable=run_alpha_aggregate,
+        provide_context=True,
+    )
+
+    gamma_ingest_task >> beta_transform_task >> alpha_aggregate_task
