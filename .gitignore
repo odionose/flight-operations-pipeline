@@ -31,6 +31,4 @@ docker-compose.override.yml
 # macOS
 .DS_Store
 
-# Data directories (if you do not want them tracked)
-# Uncomment if data is generated and should not be committed
-# data/
+data/
