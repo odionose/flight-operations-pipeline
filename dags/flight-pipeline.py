@@ -10,6 +10,7 @@ if AIRFLOW_HOME not in sys.path:
     sys.path.append(str(AIRFLOW_HOME))
 
 from scripts.gamma_ingest import run_gamma_ingestion
+from scripts.beta_transform import run_beta_transform
 
 default_args = {
     'owner': 'airflow',
@@ -31,3 +32,11 @@ with DAG(
         python_callable=run_gamma_ingestion,
         provide_context=True,
     )
+
+    beta_transform_task = PythonOperator(
+        task_id='beta_transform',
+        python_callable=run_beta_transform,
+        provide_context=True,
+    )
+
+    gamma_ingest_task >> beta_transform_task
