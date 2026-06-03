@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
+
 AIRFLOW_HOME = Path("/opt/airflow")
 
 if AIRFLOW_HOME not in sys.path:
@@ -12,6 +13,7 @@ if AIRFLOW_HOME not in sys.path:
 from scripts.gamma_ingest import run_gamma_ingestion
 from scripts.beta_transform import run_beta_transform
 from scripts.alpha_aggregate import run_alpha_aggregate
+from scripts.snowflake_loading import run_snowflake_loading
 
 default_args = {
     'owner': 'airflow',
@@ -46,4 +48,10 @@ with DAG(
         provide_context=True,
     )
 
-    gamma_ingest_task >> beta_transform_task >> alpha_aggregate_task
+    load_snowflake_task = PythonOperator(
+        task_id='snowflake_loading',
+        python_callable=run_snowflake_loading,
+        provide_context=True,
+    )
+
+    gamma_ingest_task >> beta_transform_task >> alpha_aggregate_task >> load_snowflake_task
